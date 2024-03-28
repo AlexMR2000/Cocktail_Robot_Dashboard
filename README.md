@@ -24,7 +24,22 @@ This project incorporates the following components:
 
 ### CPEE Model
 
+The CPEE Model serves as Simulator and placeholder for more detailed (sub-)processes. In this project, the basic functionalities of a cocktail robot are implemented consisting of the following actions: 
+- Setting up
+- Getting an order
+- Checking whether there are sufficient ingredients
+- If yes: Preparing and serving the cocktail
+- If no: Filling up the ingredients
+- Waiting for new orders
+- Shutting down
+These basic functionalities are extended by optional (random) process legs such as random shut-downs (and reboots) of the robot or handling of orders that are impossible to fulfill.   
+
 ## Installation
+
+1. Clone the repository with the following command:
+<code> test <code>
+
+2. 
 
 ## Demo with Images and Videos 
 
