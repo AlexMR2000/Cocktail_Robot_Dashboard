@@ -9,7 +9,7 @@ Prepared by Alexander Reisenauer (Matr.Nr.: 03712872)
 
 ### Overview
 
-This project provides a management dashboard for the cocktail robot developed by the chair TUM CIT. Therefore, a CPEE process is deisgned to orchestrate and simulate various functionalities of the cocktail robot. The resulting event logs are persisted in a SQLite database and sent to the dashboard via SSE connection. Please refer to the following graphic for further architectural details of this project:  
+This project provides a management dashboard for the cocktail robot developed by the chair TUM CIT. Therefore, a CPEE process is designed to orchestrate and simulate various functionalities of the cocktail robot. Further, this documentation provides an overview and detailed descriptions of a Python application that uses Flask for creating a web service and SQLite for database management. Please refer to the following graphic for further architectural details of this project:  
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/Cocktail_Dashboard_ArchitecturalDesign_Overview.jpg)
 
@@ -40,24 +40,49 @@ These basic functionalities are extended by optional (random) process legs such 
 
 `git clone https://github.com/AlexMR2000/Cocktail_Dashboard`
 
-3. Install the required packages with the following command:
+2. Install the required packages with the following command:
 
 `pip install -r requirements.txt`
 
-4. Update the configuration file with the required parameters. The configuration file is located at config/config.json and src/config.py. #TODO
-5. Run the project with the following command:
+3. Update the configuration file with the required parameters. The configuration file is located at config/config.json and src/config.py. #TODO
+4. Run the project with the following command:
 `#TODO`
-6. The Dashboard can be accessed at the configured port.
-7. Load all CPEE models that are located in the CPEE folder #TODO Link
-8. Start one or more CPEE models and watch the Dashboard's magic
+5. The Dashboard can be accessed at the configured port.
+6. Load all CPEE models that are located in the CPEE folder #TODO Link
+7. Start one or more CPEE models and watch the Dashboard's magic
 
 ## Demo with Images and Videos 
 
--- link to Syn&Share Folder --
+In the folder docs (#TODO Link) there are useful images and videos documenting the functionalities of this project including a process and user perspective.  
 
 ## API Documentation
 
 ### Logger
+
+The application serves as a logging service, capturing event data sent through HTTP POST requests to a specified endpoint ´/writelogtodb´. It processes the incoming data and stores it in a structured format within an SQLite database. The service is built using Flask, a micro web framework for Python, making it lightweight and suitable for both development and production environments.
+
+#### Setting up
+
+The database is configured to store logs in a table named logs, containing various fields such as timestamps, event types, instance details, activities, and annotations among others. The ´setup_database´ function is responsible for creating this table if it does not already exist.
+
+#### API Endpoint `/writelogtodb`
+
+This endpoint accepts POST requests containing event log data. The data is expected to be in a form-encoded format with a key named notification holding a JSON string of the event details. The application parses this data, along with other form fields, to extract relevant information such as event timestamp, type, instance details, activity information, and annotations
+
+#### Function Descriptions
+
+`get_db_connection()`
+Establishes a connection to the SQLite database and sets the row factory to sqlite3.Row for convenient row access.
+
+`setup_database()`
+Ensures the existence of the logs table within the database, creating it with the appropriate schema if necessary.
+
+`write_log_to_db()`
+Main function for processing incoming POST requests. It extracts data from the request, formats it appropriately, and inserts it into the logs table in the database. In case of errors during database operations, it returns an HTTP 500 response.
+
+#### Error Handling
+
+The application includes basic error handling, particularly for database operations within the write_log_to_db function. Errors are caught, logged to the console, and result in an HTTP 500 response to indicate a server error.
 
 ### Dashboard Backend
 
