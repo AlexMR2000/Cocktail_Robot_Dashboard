@@ -37,9 +37,21 @@ These basic functionalities are extended by optional (random) process legs such 
 ## Installation
 
 1. Clone the repository with the following command:
-<code> test <code>
-
-2. 
+<code>
+git clone https://github.com/AlexMR2000/Cocktail_Dashboard
+<code>
+2. Install the required packages with the following command:
+<code>
+pip install -r requirements.txt
+<code>
+3. Update the configuration file with the required parameters. The configuration file is located at config/config.json and src/config.py. #TODO
+4. Run the project with the following command:
+<code>
+#TODO
+<code>
+5. The Dashboard can be accessed at the configured port.
+6. Load all CPEE models that are located in the CPEE folder #TODO Link
+7. Start one or more CPEE models and watch the Dashboard's magic
 
 ## Demo with Images and Videos 
 
