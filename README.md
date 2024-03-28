@@ -9,7 +9,7 @@ Prepared by Alexander Reisenauer (Matr.Nr.: 03712872)
 
 ### Overview
 
-This project provides a management dashboard for the cocktail robot developed by the chair TUM CIT. Therefore, a CPEE process is designed to orchestrate and simulate various functionalities of the cocktail robot. Further, this documentation provides an overview and detailed descriptions of a Python application that uses Flask for creating a web service and SQLite for database management. Please refer to the following graphic for further architectural details of this project:  
+The main goal of this project was to develop a management dashboard for a simulation of the cocktail robot developed by the TUM CIT chair based on a [CPEE](https://cpee.org/) model. The requirements for the project stipulate that the system should persist the logs resulting from the CPEE process in a SQLite database and, in the next step, be connected to a web-based dashboard via a Server-Sent Events (SSE) connection. In this way, this project provides an extensible and easily scalable system that gives the user feedback on the actions of one or more cocktail robots in real time. Further architectural details of this project can be found in the following graphic: 
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/Cocktail_Dashboard_ArchitecturalDesign_Overview.jpg)
 
@@ -17,24 +17,10 @@ This project provides a management dashboard for the cocktail robot developed by
 
 This project incorporates the following components: 
 
-1. Simulator: In fact, the CPEE process simulates the cocktail robot's actions in its typical working environment. That is: Setting up the robot, receiving and accepting orders, preparing and serving cocktails and shutting down. 
-3. Logger: The Python script persist_logs_in_sqlite.py serves as an  interface between CPEE's logging interface and the backend. Event logs that are produced as long as the Simulator is running are parsed and persisted in a SQLite database that is located on my account on the "lehre" server.  
-4. Dashboard Backend: The Python script backend_cocktail_dashboard encorporates a Flask Python Web Framework that prepares relevant logs as soon as new logs are written in the database. Hence, it constantly scans the database for updates to send new data to the Frontend.
-5. Dashboard Frontend: This html script visualizes the logs in a user-friendly and comprehensive way enabling developer and non-developer to gain an overview about the cocktail robot's status and various relevant statistics. The Dashboard is view-only which aligns with the project's requirements.
-
-### CPEE Model
-
-The [CPEE Model](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/cpee_model/CPEE_Cocktail_Dashboard_Process.xml) serves as Simulator and placeholder for more detailed (sub-)processes. It is designed to be extended in future projects. In this project, the basic functionalities of a cocktail robot are implemented consisting of the following actions: 
-- Setting up
-- Getting an order
-- Checking whether there are sufficient ingredients
-- If yes: Preparing and serving the cocktail
-- If no: Filling up the ingredients
-- Waiting for new orders
-- Shutting down
-These basic functionalities are extended by optional (random) process legs such as random shut-downs (and reboots) of the robot or handling of orders that are impossible to fulfill.
-
-The process is steered by various data elements that track the ingredients status, which order is currently being processed, and whether the robot did successfully boot (setup). A single process instance (uniquely identified by the `instance_uuid`) stands for a single robot. Note that the CPEE model is designed to be scalable in a simple manner. As the dashboard doesn't rely on the processes' data elements but rather on annotations associated with different process elements, the dashboard is robust agains changes of names of single data elements, for instance.  
+1. Simulator: The CPEE process serves as a simulator that generates data on the actions of the cocktail robot in its typical working environment. This means: setting up the robot, receiving and accepting orders, preparing and serving cocktails and switching off. Please refer to the next chapter for further information. 
+3. Logger: The Python script `persist_logs_in_sqlite.py` serves as an interface between the logging interface of CPEE and the backend. Event logs that are generated while the simulator is running are parsed and persisted in a SQLite database located on my account on the server ["lehre.bpm.in.tum.de"](https://lehre.bpm.in.tum.de/~ge49vav/).  
+4. Dashboard Backend: The Python script `backend_cocktail_dashboard` includes a Flask Python web framework that prepares relevant logs as soon as new logs are written to the database. It therefore constantly searches the database for updates in order to send new data to the frontend.
+5. Dashboard Frontend: This html script visualizes the logs in a user-friendly and comprehensive way that allows developers and non-developers to get an overview of the status of the cocktail robot and various relevant statistics. The dashboard is limited to view-only functionalities, which meets the requirements of the project.
 
 ## Installation
 
@@ -46,15 +32,55 @@ The process is steered by various data elements that track the ingredients statu
 
 `pip install -r requirements.txt`
 
-3. Update the configuration file with the required parameters. The configuration file is located at config/config.json and src/config.py. #TODO
-4. Run the project with the following commands:
+3. Create a SQLite database file (if not already available) on my account of the server ["lehre.bpm.in.tum.de"](https://lehre.bpm.in.tum.de/~ge49vav/) (after logging in to the server) with the following commands:
 
-- `python3 persist_logs_in_sqlite.py` to persist logs that are generated by the CPEE model in SQLite
-- `python3 backend_cocktail_dashboard.py` to set up and send the event logs to a web Dashboard 
+`touch log_database.db`
+`chmod 666 log_database.db`
+
+5. Run the project with the following commands:
+
+`python3 persist_logs_in_sqlite.py` to persist logs that are generated by the CPEE model in SQLite
+`python3 backend_cocktail_dashboard.py` to set up and send the event logs to a web Dashboard 
 
 5. The Dashboard can be accessed at the configured port.
-6. Load all CPEE models that are located in the CPEE folder #TODO Link
-7. Start one or more CPEE models and watch the Dashboard's magic
+6. Create a new instance on [CPEE](https://cpee.org/) and load the [CPEE model](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/cpee_model/CPEE_Cocktail_Dashboard_Process.xml). Note that multiple instances can be created, which means that "multiple robots can work simultaneously".
+7. Start one or more CPEE models and watch the Dashboard's magic.
+
+### CPEE Model
+
+The [CPEE model](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/cpee_model/CPEE_Cocktail_Dashboard_Process.xml) serves as a simulator of a single cocktail robot and is designed to be a placeholder for more detailed (sub)processes in future projects. It is possible to start several processes in parallel, which would mean that several cocktail robots work simultaneously. Note that the process is based on local data elements that control the process, e.g. by determining the fill levels of ingredients or by randomly selecting cocktail orders. The process exists for demonstration purposes only. In this project, the basic functionalities of a cocktail robot are implemented, which consist of the following actions: 
+
+1. Setting up the robot
+
+![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/01_cpee_model_doc_setting_up_the_robot.png)
+
+The process uses a random parameter to decide whether the robot builds up (boots) successfully or whether it "crashes" and shuts down (see Step 5). The latter results in a new reboot. If the robot boots successfully, the process continues to Step 2.  
+
+2. Getting an order
+
+![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/02_cpee_model_doc_getting_an_order.png)
+
+The process "orders" a cocktail at random, i.e. in this example Gin Tonic, Negroni or Old Fashioned. There is also a chance that a cocktail will be ordered that is not on the "menu", i.e. for which no process/recipe is defined. In this case, refer to Step 4. If the cocktail is "on the menu", the process continues with Step 3. 
+
+3. Preparing a cocktail or filling up the ingredients
+
+![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/03_cpee_model_preparing_cocktail_or_fill_up_ingredients.png)
+
+The system checks whether the ingredients are sufficient to make the cocktail ordered. If so, the cocktail recipe, as implemented into the process, is executed, whereby the addition of an ingredient, e.g. Angostura to an Old Fashioned, is a process step. Finally, each cocktail is "mixed and served". If the level of any of the required ingredients is insufficient, the process selects the alternative lane, i.e. rejecting the order and replenishing the ingredients. The process continues with Step 5.
+
+4. Cocktail is unavailable
+
+![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/04_cpee_model_cocktail_unavailable.png)
+
+If the order from Step 2 results in a cocktail that is not available, i.e. for which no process is defined, the order is rejected and the process continues with Step 5.
+
+5. Finishing an order and shutting down
+
+![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/05_cpee_model_finishing_an_order_and_shutting_down.png)
+
+In both cases, i.e. when an order has been successfully executed or rejected, the process ends the current order cycle by resetting various status variables that are required for the process to run in an endless simulation loop. Here too, the process randomly determines whether the robot can continue working, i.e. accepts the next order (jump to Step 2), or whether it "crashes" and has to be switched off. In the latter case, the robot shuts down and rebuilds itself (Step 1).  
+
+To summarize, the CPEE model is designed to generate data for demonstration porpuses and to be easily scalable. As the dashboard is not based on the data elements of the process, but on the annotations associated with the different process elements, the dashboard is robust to changes in the names of individual data elements, for example. These 'annotations' are a CPEE feature enabling more efficient logging by abstracting single process steps. The dashboard backend and frontend heavily relies on these annotations as can be seen in the following chapters. 
 
 ## Demo with Images and Videos 
 
