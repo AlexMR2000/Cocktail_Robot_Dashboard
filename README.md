@@ -52,31 +52,31 @@ This project incorporates the following components:
 
 The [CPEE model](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/cpee_model/CPEE_Cocktail_Dashboard_Process.xml) serves as a simulator of a single cocktail robot and is designed to be a placeholder for more detailed (sub)processes in future projects. It is possible to start several processes in parallel, which would mean that several cocktail robots work simultaneously. Note that the process is based on local data elements that control the process, e.g. by determining the fill levels of ingredients or by randomly selecting cocktail orders. The process exists for demonstration purposes only. In this project, the basic functionalities of a cocktail robot are implemented, which consist of the following actions: 
 
-1. Setting up the robot
+#### 1. Setting up the robot
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/01_cpee_model_doc_setting_up_the_robot.png)
 
 The process uses a random parameter to decide whether the robot builds up (boots) successfully or whether it "crashes" and shuts down (see Step 5). The latter results in a new reboot. If the robot boots successfully, the process continues to Step 2.  
 
-2. Getting an order
+#### 2. Getting an order
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/02_cpee_model_doc_getting_an_order.png)
 
 The process "orders" a cocktail at random, i.e. in this example Gin Tonic, Negroni or Old Fashioned. There is also a chance that a cocktail will be ordered that is not on the "menu", i.e. for which no process/recipe is defined. In this case, refer to Step 4. If the cocktail is "on the menu", the process continues with Step 3. 
 
-3. Preparing a cocktail or filling up the ingredients
+#### 3. Preparing a cocktail or filling up the ingredients
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/03_cpee_model_preparing_cocktail_or_fill_up_ingredients.png)
 
 The system checks whether the ingredients are sufficient to make the cocktail ordered. If so, the cocktail recipe, as implemented into the process, is executed, whereby the addition of an ingredient, e.g. Angostura to an Old Fashioned, is a process step. Finally, each cocktail is "mixed and served". If the level of any of the required ingredients is insufficient, the process selects the alternative lane, i.e. rejecting the order and replenishing the ingredients. The process continues with Step 5.
 
-4. Cocktail is unavailable
+#### 4. Cocktail is unavailable
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/04_cpee_model_cocktail_unavailable.png)
 
 If the order from Step 2 results in a cocktail that is not available, i.e. for which no process is defined, the order is rejected and the process continues with Step 5.
 
-5. Finishing an order and shutting down
+#### 5. Finishing an order and shutting down
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/05_cpee_model_finishing_an_order_and_shutting_down.png)
 
