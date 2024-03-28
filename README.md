@@ -32,7 +32,9 @@ The [CPEE Model](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/cpee
 - If no: Filling up the ingredients
 - Waiting for new orders
 - Shutting down
-These basic functionalities are extended by optional (random) process legs such as random shut-downs (and reboots) of the robot or handling of orders that are impossible to fulfill.   
+These basic functionalities are extended by optional (random) process legs such as random shut-downs (and reboots) of the robot or handling of orders that are impossible to fulfill.
+
+The process is steered by various data elements that track the ingredients status, which order is currently being processed, and whether the robot did successfully boot (setup). A single process instance (uniquely identified by the `instance_uuid`) stands for a single robot. Note that the CPEE model is designed to be scalable in a simple manner. As the dashboard doesn't rely on the processes' data elements but rather on annotations associated with different process elements, the dashboard is robust agains changes of names of single data elements, for instance.  
 
 ## Installation
 
@@ -56,7 +58,11 @@ These basic functionalities are extended by optional (random) process legs such 
 
 ## Demo with Images and Videos 
 
-In the folder [docs](https://github.com/AlexMR2000/Cocktail_Dashboard/tree/main/cpee_model) there are useful images and videos documenting the functionalities of this project including a process and user perspective.  
+In the folder [docs](https://github.com/AlexMR2000/Cocktail_Dashboard/tree/main/cpee_model) there are useful images and videos documenting the functionalities of this project including a process and user perspective. Files that were to large to upload on Git can be accessed from the Sync&Share system of TUM (#TODO upload files and adjust name)
+
+- The video (#TODO adjust name) documents how to install and set up the project
+- The video (#TODO adjust name) documents how the CPEE process behaves (process perspective)
+- The video (#TODO adjust name) documents how the Dashboard behaves as the CPEE model produces more and more data (user perspective)
 
 ## API Documentation
 
