@@ -24,7 +24,8 @@ This project incorporates the following components:
 
 ## Installation
 
-1. Clone the repository with the following command:
+1. Navigate to your account space on the server ["lehre.bpm.in.tum.de"](https://lehre.bpm.in.tum.de/)
+2. Clone the repository with the following command:
 
 `git clone https://github.com/AlexMR2000/Cocktail_Dashboard`
 
@@ -32,11 +33,13 @@ This project incorporates the following components:
 
 `pip install -r requirements.txt`
 
-3. Create a SQLite database file (if not already available) on my account of the server ["lehre.bpm.in.tum.de"](https://lehre.bpm.in.tum.de/~ge49vav/) (after logging in to the server) with the following commands:
+3. Create a SQLite database file on your account space on the server ["lehre.bpm.in.tum.de"](https://lehre.bpm.in.tum.de/) with the following commands:
 
 `touch log_database.db`
 
 `chmod 666 log_database.db`
+
+4. Adjust the link `db_path` in the scripts `persist_logs_in_sqlite.py` and `backend_cocktail_dashboard.py` to point to the database you created
 
 5. Run the project with the following commands:
 
