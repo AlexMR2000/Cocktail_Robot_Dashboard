@@ -5,10 +5,10 @@
     <title>Dashboard</title>
     <style>
         body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
 
         .header {
@@ -85,7 +85,7 @@
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            margin-bottom: 20px; /* Spacing between this container and the chart */
+            margin-bottom: 20px;
             text-align: left;
         }
 
@@ -108,7 +108,7 @@
         }
 
         .footer span {
-            font-size: 14px; /* Adjust font size as needed */
+            font-size: 14px;
         }
 
     </style>
@@ -179,7 +179,7 @@
             datasets: [{
                 label: 'Number of Cocktails Made',
                 data: Object.values(cocktailCounts),
-                backgroundColor: 'rgba(51, 51, 51, 0.2)', // brown color of header
+                backgroundColor: 'rgba(51, 51, 51, 0.2)',
                 borderColor: 'rgba(51, 51, 51, 1)',
                 borderWidth: 1
             }]
@@ -202,7 +202,7 @@
             datasets: [{
                 label: 'Ingredients Used',
                 data: Object.values(ingredientCounts),
-                backgroundColor: 'rgba(51, 51, 51, 0.5)',  // Slightly darker color than the other chart
+                backgroundColor: 'rgba(51, 51, 51, 0.5)',
                 borderColor: 'rgba(0, 0, 0, 1)',
                 borderWidth: 1
             }]
