@@ -6,7 +6,7 @@ Prepared by Alexander Reisenauer (Matr.Nr.: 03712872)
 
 ### Overview
 
--- insert PPT image here -- 
+![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/Cocktail_Dashboard_ArchitecturalDesign_Overview.jpg)
 
 ### Components
 
