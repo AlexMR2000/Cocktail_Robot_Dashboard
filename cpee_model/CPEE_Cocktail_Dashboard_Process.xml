@@ -1,0 +1,1329 @@
+<testset xmlns="http://cpee.org/ns/properties/2.0">
+  <executionhandler>ruby</executionhandler>
+  <dataelements>
+    <angostura>5</angostura>
+    <bourbon>5</bourbon>
+    <campari>5</campari>
+    <cocktail_id>0</cocktail_id>
+    <cocktail_name>Negroni</cocktail_name>
+    <gin>5</gin>
+    <martini>5</martini>
+    <robot_restart>false</robot_restart>
+    <served>false</served>
+    <tonic>5</tonic>
+    <order_accepted>false</order_accepted>
+    <order_rejected>false</order_rejected>
+    <failed>false</failed>
+    <robot_ready>1</robot_ready>
+  </dataelements>
+  <endpoints>
+    <user>https-post://cpee.org/services/timeout-user.php</user>
+    <auto>https-post://cpee.org/services/timeout-auto.php</auto>
+    <subprocess>https-post://cpee.org/flow/start/url/</subprocess>
+    <timeout>https://cpee.org/services/timeout.php</timeout>
+    <send>https-post://cpee.org/ing/correlators/message/send/</send>
+    <receive>https-get://cpee.org/ing/correlators/message/receive/</receive>
+  </endpoints>
+  <attributes>
+    <info>Enter info here</info>
+    <modeltype>CPEE</modeltype>
+    <theme>extended</theme>
+  </attributes>
+  <description>
+    <description xmlns="http://cpee.org/ns/description/1.0">
+      <!-- New outer loop -->
+      <loop mode="pre_test" condition="true">
+        <_probability>
+          <_probability_min/>
+          <_probability_max/>
+          <_probability_avg/>
+        </_probability>
+        <call id="a13" endpoint="auto">
+          <parameters>
+            <label>Setting up the robot</label>
+            <arguments>
+              <timeout>!rand(5..10)</timeout>
+            </arguments>
+          </parameters>
+          <code>
+            <prepare/>
+            <finalize output="result">data.robot_restart = false
+data.robot_ready = rand(1..10)</finalize>
+            <update output="result"/>
+            <rescue output="result"/>
+          </code>
+          <annotations>
+            <_generic>
+              <dashboard_robot_status>Setting up...</dashboard_robot_status>
+              <dashboard_process_status>started</dashboard_process_status>
+            </_generic>
+            <_timing>
+              <_timing_weight/>
+              <_timing_avg/>
+              <explanations/>
+            </_timing>
+            <_shifting>
+              <_shifting_type>Duration</_shifting_type>
+            </_shifting>
+            <_context_data_analysis>
+              <probes/>
+              <ips/>
+            </_context_data_analysis>
+            <report>
+              <url/>
+            </report>
+            <_notes>
+              <_notes_general/>
+            </_notes>
+          </annotations>
+          <documentation>
+            <input/>
+            <output/>
+            <implementation>
+              <description/>
+            </implementation>
+            <code>
+              <description/>
+            </code>
+          </documentation>
+        </call>
+        <loop mode="pre_test" condition="data.robot_ready &lt; 8">
+          <_probability>
+            <_probability_min/>
+            <_probability_max/>
+            <_probability_avg/>
+          </_probability>
+          <call id="a8" endpoint="auto">
+            <parameters>
+              <label>Get order</label>
+              <arguments>
+                <timeout>!rand(2..5)</timeout>
+              </arguments>
+            </parameters>
+            <code>
+              <prepare/>
+              <finalize output="result">data.cocktail_id = rand(1..4)</finalize>
+              <update output="result"/>
+              <rescue output="result"/>
+            </code>
+            <annotations>
+              <_generic>
+                <dashboard_robot_status>Getting order</dashboard_robot_status>
+              </_generic>
+              <_timing>
+                <_timing_weight/>
+                <_timing_avg/>
+                <explanations/>
+              </_timing>
+              <_shifting>
+                <_shifting_type>Duration</_shifting_type>
+              </_shifting>
+              <_context_data_analysis>
+                <probes/>
+                <ips/>
+              </_context_data_analysis>
+              <report>
+                <url/>
+              </report>
+              <_notes>
+                <_notes_general/>
+              </_notes>
+            </annotations>
+            <documentation>
+              <input/>
+              <output/>
+              <implementation>
+                <description/>
+              </implementation>
+              <code>
+                <description/>
+              </code>
+            </documentation>
+          </call>
+          <choose mode="exclusive">
+            <alternative condition="data.cocktail_id == 1">
+              <_probability>
+                <_probability_min/>
+                <_probability_max/>
+                <_probability_avg/>
+              </_probability>
+              <choose mode="exclusive">
+                <alternative condition="data.gin &gt; 0 &amp;&amp; data.tonic &gt; 0">
+                  <_probability>
+                    <_probability_min/>
+                    <_probability_max/>
+                    <_probability_avg/>
+                  </_probability>
+                  <call id="a7" endpoint="auto">
+                    <parameters>
+                      <label>Accept order</label>
+                      <arguments>
+                        <timeout>!rand(1..3)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.cocktail_name = "Gin Tonic"
+data.order_accepted = true</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_robot_status>Accepting order</dashboard_robot_status>
+                        <dashboard_cocktail_stats>Gin Tonic</dashboard_cocktail_stats>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a10" endpoint="auto">
+                    <parameters>
+                      <label>Get Gin</label>
+                      <arguments>
+                        <timeout>!rand(1..3)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.gin -= 1</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_item_used>Gin</dashboard_item_used>
+                        <dashboard_robot_status>Preparing ingredients</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a14" endpoint="auto">
+                    <parameters>
+                      <label>Get Tonic</label>
+                      <arguments>
+                        <timeout>!rand(1..3)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.tonic -= 1</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_item_used>Tonic</dashboard_item_used>
+                        <dashboard_robot_status>Preparing ingredients</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a16" endpoint="auto">
+                    <parameters>
+                      <label>Mix and serve cocktail</label>
+                      <arguments>
+                        <timeout>!rand(1..5)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.served = true</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_robot_status>Mix and serve</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                </alternative>
+                <otherwise>
+                  <call id="a2" endpoint="auto">
+                    <parameters>
+                      <label>Reject order</label>
+                      <arguments>
+                        <timeout>!rand(5..10)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.cocktail_name = "Gin Tonic"
+data.order_rejected = true</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_robot_status>Rejecting order because the ingredients are not sufficient</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a5" endpoint="auto">
+                    <parameters>
+                      <label>Fill up ingredients</label>
+                      <arguments>
+                        <timeout>!rand(5..10)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.gin = 5
+data.tonic = 5</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_robot_status>Filling up ingredients</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                </otherwise>
+              </choose>
+            </alternative>
+            <alternative condition="data.cocktail_id == 2">
+              <choose mode="exclusive">
+                <alternative condition="data.bourbon &gt; 0 &amp;&amp; data.angostura &gt; 0">
+                  <_probability>
+                    <_probability_min/>
+                    <_probability_max/>
+                    <_probability_avg/>
+                  </_probability>
+                  <call id="a12" endpoint="auto">
+                    <parameters>
+                      <label>Accept order</label>
+                      <arguments>
+                        <timeout>!rand(1..3)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.cocktail_name = "Old Fashioned"
+data.order_accepted = true</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_robot_status>Accepting order</dashboard_robot_status>
+                        <dashboard_cocktail_stats>Old Fashioned</dashboard_cocktail_stats>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a18" endpoint="auto">
+                    <parameters>
+                      <label>Get Bourbon</label>
+                      <arguments>
+                        <timeout>!rand(1..3)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.bourbon -= 1</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_item_used>Bourbon</dashboard_item_used>
+                        <dashboard_robot_status>Preparing ingredients</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a19" endpoint="auto">
+                    <parameters>
+                      <label>Get Angostura</label>
+                      <arguments>
+                        <timeout>!rand(1..3)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.angostura -= 1</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_item_used>Angostura</dashboard_item_used>
+                        <dashboard_robot_status>Preparing ingredients</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a21" endpoint="auto">
+                    <parameters>
+                      <label>Mix and serve cocktail</label>
+                      <arguments>
+                        <timeout>!rand(1..5)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.served = true</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_robot_status>Mix and serve</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                </alternative>
+                <otherwise>
+                  <call id="a15" endpoint="auto">
+                    <parameters>
+                      <label>Reject order</label>
+                      <arguments>
+                        <timeout>!rand(5..10)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.cocktail_name = "Old Fashioned"
+data.order_rejected = true</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_robot_status>Rejecting order because the ingredients are not sufficient</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a17" endpoint="auto">
+                    <parameters>
+                      <label>Fill up ingredients</label>
+                      <arguments>
+                        <timeout>!rand(5..10)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.bourbon = 5
+data.angostura = 5</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_robot_status>Filling up ingredients</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                </otherwise>
+              </choose>
+              <_probability>
+                <_probability_min/>
+                <_probability_max/>
+                <_probability_avg/>
+              </_probability>
+            </alternative>
+            <alternative condition="data.cocktail_id == 3">
+              <choose mode="exclusive">
+                <alternative condition="data.martini &gt; 0 &amp;&amp; data.gin &gt; 0 &amp;&amp; data.campari &gt; 0">
+                  <_probability>
+                    <_probability_min/>
+                    <_probability_max/>
+                    <_probability_avg/>
+                  </_probability>
+                  <call id="a22" endpoint="auto">
+                    <parameters>
+                      <label>Accept order</label>
+                      <arguments>
+                        <timeout>!rand(1..3)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.cocktail_name = "Negroni"
+data.order_accepted = true</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_robot_status>Accepting order</dashboard_robot_status>
+                        <dashboard_cocktail_stats>Negroni</dashboard_cocktail_stats>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a20" endpoint="auto">
+                    <parameters>
+                      <label>Get Martini</label>
+                      <arguments>
+                        <timeout>!rand(1..3)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.martini -= 1</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_item_used>Martini</dashboard_item_used>
+                        <dashboard_robot_status>Preparing ingredients</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a23" endpoint="auto">
+                    <parameters>
+                      <label>Get Gin</label>
+                      <arguments>
+                        <timeout>!rand(1..3)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.gin -= 1</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_item_used>Gin</dashboard_item_used>
+                        <dashboard_robot_status>Preparing ingredients</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a24" endpoint="auto">
+                    <parameters>
+                      <label>Get Campari</label>
+                      <arguments>
+                        <timeout>!rand(1..3)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.campari -= 1</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_item_used>Campari</dashboard_item_used>
+                        <dashboard_robot_status>Preparing ingredients</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a25" endpoint="auto">
+                    <parameters>
+                      <label>Mix and serve cocktail</label>
+                      <arguments>
+                        <timeout>!rand(1..5)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.served = true</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_robot_status>Mix and serve</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                </alternative>
+                <otherwise>
+                  <call id="a1" endpoint="auto">
+                    <parameters>
+                      <label>Reject order</label>
+                      <arguments>
+                        <timeout>!rand(5..10)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.cocktail_name = "Negroni"
+data.order_rejected = true</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_robot_status>Rejecting order because the ingredients are not sufficient</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                  <call id="a6" endpoint="auto">
+                    <parameters>
+                      <label>Fill up ingredients</label>
+                      <arguments>
+                        <timeout>!rand(5..10)</timeout>
+                      </arguments>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result">data.martini = 5
+data.gin = 5
+data.campari = 5</finalize>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_generic>
+                        <dashboard_robot_status>Filling up ingredients</dashboard_robot_status>
+                      </_generic>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_shifting>
+                        <_shifting_type>Duration</_shifting_type>
+                      </_shifting>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <documentation>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </documentation>
+                  </call>
+                </otherwise>
+              </choose>
+              <_probability>
+                <_probability_min/>
+                <_probability_max/>
+                <_probability_avg/>
+              </_probability>
+            </alternative>
+            <otherwise>
+              <call id="a4" endpoint="auto">
+                <parameters>
+                  <label>Cocktail is not on the menu</label>
+                  <arguments>
+                    <timeout>!rand(5..10)</timeout>
+                  </arguments>
+                </parameters>
+                <code>
+                  <prepare/>
+                  <finalize output="result">data.failed = true</finalize>
+                  <update output="result"/>
+                  <rescue output="result"/>
+                </code>
+                <annotations>
+                  <_generic>
+                    <dashboard_robot_status>Rejecting order because the ordered cocktail is not on the menu</dashboard_robot_status>
+                  </_generic>
+                  <_timing>
+                    <_timing_weight/>
+                    <_timing_avg/>
+                    <explanations/>
+                  </_timing>
+                  <_shifting>
+                    <_shifting_type>Duration</_shifting_type>
+                  </_shifting>
+                  <_context_data_analysis>
+                    <probes/>
+                    <ips/>
+                  </_context_data_analysis>
+                  <report>
+                    <url/>
+                  </report>
+                  <_notes>
+                    <_notes_general/>
+                  </_notes>
+                </annotations>
+                <documentation>
+                  <input/>
+                  <output/>
+                  <implementation>
+                    <description/>
+                  </implementation>
+                  <code>
+                    <description/>
+                  </code>
+                </documentation>
+              </call>
+            </otherwise>
+          </choose>
+          <call id="a11" endpoint="auto">
+            <parameters>
+              <label>Robot failure probability and Robot idle time</label>
+              <arguments>
+                <timeout>10</timeout>
+              </arguments>
+            </parameters>
+            <code>
+              <prepare/>
+              <finalize output="result">data.served = false
+data.order_accepted = false
+data.order_rejected = false
+data.failed = false
+data.robot_ready = rand(1..10)</finalize>
+              <update output="result"/>
+              <rescue output="result"/>
+            </code>
+            <annotations>
+              <_generic>
+                <dashboard_robot_status>Idle</dashboard_robot_status>
+                <dashboard_process_status>finished</dashboard_process_status>
+              </_generic>
+              <_timing>
+                <_timing_weight/>
+                <_timing_avg/>
+                <explanations/>
+              </_timing>
+              <_shifting>
+                <_shifting_type>Duration</_shifting_type>
+              </_shifting>
+              <_context_data_analysis>
+                <probes/>
+                <ips/>
+              </_context_data_analysis>
+              <report>
+                <url/>
+              </report>
+              <_notes>
+                <_notes_general/>
+              </_notes>
+            </annotations>
+            <documentation>
+              <input/>
+              <output/>
+              <implementation>
+                <description/>
+              </implementation>
+              <code>
+                <description/>
+              </code>
+            </documentation>
+          </call>
+        </loop>
+        <call id="a9" endpoint="auto">
+          <parameters>
+            <label>Shutting down the robot</label>
+            <arguments>
+              <timeout>!rand(5..10)</timeout>
+            </arguments>
+          </parameters>
+          <code>
+            <prepare/>
+            <finalize output="result">data.robot_restart = true</finalize>
+            <update output="result"/>
+            <rescue output="result"/>
+          </code>
+          <annotations>
+            <_generic>
+              <dashboard_robot_status>The Robot crashed. Shutting down...</dashboard_robot_status>
+            </_generic>
+            <_timing>
+              <_timing_weight/>
+              <_timing_avg/>
+              <explanations/>
+            </_timing>
+            <_shifting>
+              <_shifting_type>Duration</_shifting_type>
+            </_shifting>
+            <_context_data_analysis>
+              <probes/>
+              <ips/>
+            </_context_data_analysis>
+            <report>
+              <url/>
+            </report>
+            <_notes>
+              <_notes_general/>
+            </_notes>
+          </annotations>
+          <documentation>
+            <input/>
+            <output/>
+            <implementation>
+              <description/>
+            </implementation>
+            <code>
+              <description/>
+            </code>
+          </documentation>
+        </call>
+      </loop>
+    </description>
+  </description>
+  <transformation>
+    <description type="copy"/>
+    <dataelements type="none"/>
+    <endpoints type="none"/>
+  </transformation>
+  <subscriptions xmlns="http://riddl.org/ns/common-patterns/notifications-producer/2.0">
+    <subscription xmlns="http://riddl.org/ns/common-patterns/notifications-producer/2.0" id="_logging_db_port" url="https://lehre.bpm.in.tum.de/ports/9090/writelogtodb">
+      <topic id="activity">
+        <event>receiving</event>
+        <event>done</event>
+        <event>manipulating</event>
+        <event>calling</event>
+      </topic>
+      <topic id="task">
+        <event>instantiation</event>
+      </topic>
+      <topic id="gateway">
+        <event>join</event>
+      </topic>
+      <topic id="description">
+        <event>change</event>
+      </topic>
+      <topic id="dataelements">
+        <event>change</event>
+      </topic>
+      <topic id="state">
+        <event>change</event>
+      </topic>
+      <topic id="attributes">
+        <event>change</event>
+      </topic>
+      <topic id="endpoints">
+        <event>change</event>
+      </topic>
+    </subscription>
+    <subscription xmlns="http://riddl.org/ns/common-patterns/notifications-producer/2.0" id="_logging_txt_port" url="https://lehre.bpm.in.tum.de/ports/9091/writelogtotxt">
+      <topic id="activity">
+        <event>receiving</event>
+        <event>done</event>
+        <event>manipulating</event>
+        <event>calling</event>
+      </topic>
+      <topic id="task">
+        <event>instantiation</event>
+      </topic>
+      <topic id="gateway">
+        <event>join</event>
+      </topic>
+      <topic id="description">
+        <event>change</event>
+      </topic>
+      <topic id="dataelements">
+        <event>change</event>
+      </topic>
+      <topic id="state">
+        <event>change</event>
+      </topic>
+      <topic id="attributes">
+        <event>change</event>
+      </topic>
+      <topic id="endpoints">
+        <event>change</event>
+      </topic>
+    </subscription>
+  </subscriptions>
+</testset>
