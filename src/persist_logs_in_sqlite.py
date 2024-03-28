@@ -19,6 +19,7 @@ def get_db_connection():
 def setup_database():
     conn = get_db_connection()
     cur = conn.cursor()
+
     # Create the logs table if it doesn't exist
     cur.execute('''
         CREATE TABLE IF NOT EXISTS logs (
@@ -40,30 +41,25 @@ def setup_database():
             annotations TEXT -- JSON string
         );
         ''')
+
     conn.commit()
     conn.close()
 
 
 @app.route('/writelogtodb', methods=['POST'])
 def write_log_to_db():
-    # Convert ImmutableMultiDict (form data) to a regular dict
+    # Parse data from logs
     data = request.form.to_dict()
-
-    # Get data from 'notification'
     notification_str = data.get('notification', '{}')
     notification = json.loads(notification_str)
-
-    # Get data from 'notification' - 'content'
     content_str = notification.get('content', {})
-
-    # Retrieve 'annotations' dictionary, if exists
     annotations_dict = content_str.get('annotations', {})
 
     # Extract contents of '_generic' key, if it exists
     generic_contents = annotations_dict.get('_generic', {})
     annotations_json = json.dumps(generic_contents)
 
-    # Common fields extraction
+    # Extract relevant log fields
     timestamp_log = notification.get('timestamp')
     type_info = data.get('type')
     topic = data.get('topic')
