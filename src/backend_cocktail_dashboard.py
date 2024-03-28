@@ -7,17 +7,23 @@ import dateutil.parser
 import dateutil.tz
 
 app = Flask(__name__)
+
+# Database path
 db_path = '/home/students/ge49vav/public_html/log_database.db'
 
+
+# Create global variables
 last_activity_by_uuid = {}
 first_out_of_order_time = {}
 
 
+# Render the dashboard
 @app.route('/')
 def dashboard():
     return render_template('frontend_cocktail_dashboard.html')
 
 
+# Send data to dashboard via SSE connection
 @app.route('/stream')
 def stream():
     def generate():
@@ -51,6 +57,7 @@ def stream():
         else:
             formatted_first_log_timestamp = "N/A"
 
+        # Checking for new data
         while True:
             conn = sqlite3.connect(db_path)
             conn.row_factory = sqlite3.Row
@@ -69,6 +76,7 @@ def stream():
                 # Update the last activity timestamp for this robot
                 last_activity_by_uuid[instance_uuid] = timestamp
 
+                # Parse 'annotations' correctly
                 if event_type == 'calling':
                     if log['annotations']:
                         try:
@@ -91,7 +99,7 @@ def stream():
                         elif annotations['dashboard_robot_status'] == "The Robot crashed. Shutting down...":
                             robot_failures += 1
 
-                    # Check for ingredients used and update count
+                    # Check for ingredients used and update counts
                     if 'dashboard_item_used' in annotations:
                         ingredients_name = annotations['dashboard_item_used']
                         ingredients_counts[ingredients_name] = ingredient_counts.get(ingredients_name, 0) + 1
@@ -100,7 +108,6 @@ def stream():
                     # Handle the idle status separately
                     if annotations.get('dashboard_robot_status') == "Idle":
                         robot_status_by_uuid[instance_uuid] = "The robot is currently waiting"
-                        # Remove the cocktail tracking for this robot since it's idle now
                         if instance_uuid in last_known_cocktail_by_uuid:
                             del last_known_cocktail_by_uuid[instance_uuid]
 
@@ -129,15 +136,14 @@ def stream():
             current_time = datetime.now(dateutil.tz.UTC)
             robots_to_remove = []
 
+            # Declare a robot to be 'Out of Order' if it's inactive for more than one minute
             for uuid, last_timestamp in last_activity_by_uuid.items():
                 if current_time - last_timestamp > timedelta(minutes=1):
                     robot_status_by_uuid[uuid] = "** Out of Order **"
                     if uuid not in first_out_of_order_time:
                         first_out_of_order_time[uuid] = last_timestamp
-                # else:
-                #     if uuid in first_out_of_order_time:
-                #         del first_out_of_order_time[uuid]
 
+            # Remove a robot from the dashboard if it's inactive for more than five minutes
             for uuid, out_of_order_time in first_out_of_order_time.items():
                 if current_time - out_of_order_time > timedelta(minutes=5):
                     robots_to_remove.append(uuid)
@@ -167,7 +173,7 @@ def stream():
 
             cur.close()
             conn.close()
-            time.sleep(1)  # Sleep before the next query
+            time.sleep(1)
 
     return Response(generate(), mimetype='text/event-stream')
 
