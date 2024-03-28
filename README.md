@@ -53,7 +53,7 @@ These basic functionalities are extended by optional (random) process legs such 
 
 ## Demo with Images and Videos 
 
-In the folder docs ([Link to Data Folder](/cpee_models/)) there are useful images and videos documenting the functionalities of this project including a process and user perspective.  
+In the folder [docs](https://github.com/AlexMR2000/Cocktail_Dashboard/tree/main/cpee_model) there are useful images and videos documenting the functionalities of this project including a process and user perspective.  
 
 ## API Documentation
 
