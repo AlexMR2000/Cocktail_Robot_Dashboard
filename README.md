@@ -11,3 +11,17 @@ Prepared by Alexander Reisenauer (Matr.Nr.: 03712872)
 ### Components
 
 ### CPEE Model
+
+## Installation
+
+## Demo with Images and Videos 
+
+-- link to Syn&Share Folder --
+
+## API Documentation
+
+### Logger
+
+### Dashboard Backend
+
+### Dashboard Frontend
