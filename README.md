@@ -20,7 +20,7 @@ The main goal of this project was to develop an easily extensible, modular manag
 This project incorporates the following components: 
 
 1. **Simulator:** The CPEE process `CPEE_Cocktail_Dashboard_Process.xml` serves as a simulator that generates data on the actions of the cocktail robot in its typical working environment. This means: setting up the robot, receiving and accepting orders, preparing and serving cocktails and switching off. Please refer to the next chapter for further information. 
-2. **Logger:** The Python script `persist_logs_in_sqlite.py` serves as an interface between the logging interface of CPEE and the backend. Event logs that are generated while the simulator is running are parsed and persisted in a SQLite database (`log_database.db`) located on my account on the server [lehre.bpm.in.tum.de](https://lehre.bpm.in.tum.de/~ge49vav/).  
+2. **Logger:** The Python script `persist_logs_in_sqlite.py` serves as an interface between the logging interface of CPEE and the backend. Event logs that are generated while the simulator is running are parsed and persisted in a SQLite database (`log_database.db`) located on the server [lehre.bpm.in.tum.de](https://lehre.bpm.in.tum.de/).  
 3. **Dashboard Backend:** The Python script `backend_cocktail_dashboard.py` includes a Flask Python web framework that prepares relevant logs as soon as new logs are written to the database. It therefore constantly searches the database for updates in order to send new data to the frontend (SSE).
 4. **Dashboard Frontend:** The html script `frontend_cocktail_dashboard.html` visualizes the logs in a user-friendly and comprehensive way that allows developers and non-developers to get an overview of the status of one or more cocktail robots and various relevant statistics. The dashboard is limited to view-only functionalities, which meets the requirements of the project.
 
@@ -37,7 +37,7 @@ A step-by-step guide to setting up this project can be found below. Please refer
 
 `pip install -r requirements.txt`
 
-4. Create a SQLite database file on your account space on the server ["lehre.bpm.in.tum.de"](https://lehre.bpm.in.tum.de/) with the following commands:
+4. Create a SQLite database file on your account space on the server [lehre.bpm.in.tum.de](https://lehre.bpm.in.tum.de/) with the following commands:
 
 `touch log_database.db`
 
@@ -91,7 +91,7 @@ If the order from Step 2 results in a cocktail that is not available, i.e. for w
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/05_cpee_model_finishing_an_order_and_shutting_down.png)
 
-In both cases, i.e. when an order has been successfully executed or rejected, the process ends the current order cycle by resetting various status variables that are required for the process to run in an endless simulation loop. Here too, the process randomly determines whether the robot can continue working, i.e. accepts the next order (jump to Step 2), or whether it "crashes" and has to be switched off. In the latter case, the robot shuts down and rebuilds itself (Step 1).  
+In both cases, i.e. when an order has been successfully executed or rejected, the process ends the current order cycle by resetting various status variables that are required for the process to run in an endless simulation loop. Here too, the process randomly determines whether the robot can continue working, i.e. accepts the next order (jump to Step 2), or whether it "crashes" and has to be switched off. In the latter case, the robot shuts down and rebuilds itself (Step 1). Conclusively, this process runs in an endless loop. 
 
 To summarize, the CPEE model is designed to generate data for demonstration porpuses and to be easily scalable. As the dashboard is not based on the data elements of the process, but on the annotations associated with the different process elements, the dashboard is robust to changes in the names of individual data elements, for example. These 'annotations' are a CPEE feature enabling more efficient logging by abstracting single process steps. The dashboard backend and frontend heavily relies on these annotations as can be seen in the following chapters. 
 
@@ -112,11 +112,27 @@ These four annotation keys are enough to model and visualize the whole process i
 
 ## Demo with Images and Videos 
 
-In the folder [docs](https://github.com/AlexMR2000/Cocktail_Dashboard/tree/main/cpee_model) there are useful images and videos documenting the functionalities of this project including a process and user perspective. Files that were to large to upload on Git can be accessed from the Sync&Share system of TUM (#TODO upload files and adjust name)
+![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/00_dashboard_overview.png)
 
-- The video (#TODO adjust name) documents how to install and set up the project
-- The video (#TODO adjust name) documents how the CPEE process behaves (process perspective)
-- The video (#TODO adjust name) documents how the Dashboard behaves as the CPEE model produces more and more data (user perspective)
+The product of this project is a web dashboard that is updated in real-time as an underlying CPEE process changes. The dashboard incorportas the following elements (top to bottom, left to right): 
+
+- **Last reset: 29.03.2024, 11:04:33**: The dashboard resets as soon as the underlying SQLite database is reset. All statistics are set to 0. The date of the last reset is displayed at the top. 
+- **Cocktails made since last reset**: This number increases by one each time there is a new log entry with the annotation key `dashboard_cocktail_stats`.
+- **Ingredients used since last reset**: This number increases by one each time there is a new log entry with the annotation key `dashboard_item_used`.
+- **Robot failures since last reset**: This number increases by one each time there is a new log entry where the annotation key `dashboard_cocktail_stats` indicates that the robot crashed, e.g., "The Robot crashed. Shutting down...".
+- **Current Status of Robot: ...**: The current status of a single robot (identified by its `instance_uuid`) is displayed here. The dashboard can display an infinite number of individual robot statuses.
+- **Barchart: Number of Cocktails Made**:
+- **Barchart: Ingredients Used**: 
+
+The functionalities of the dashboard are best demonstrated in this [video](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/07_Cocktail_Dashboard_Functionality-Demonstration.mp4): 
+
+- *00:00*: A single CPEE process instance has been created (see Chapter "Installation" for more details) and the present process has been executed. This means that a single robot starts its work by "Setting up..." and accepts orders in the next step.
+- *00:10*: A first order came in, a "Gin Tonic", which the robot picked up and prepared the desired ingredients, i.e. "gin" and "tonic". The respective statistics and bar charts adjust in the dashboard are adjusted in real-time.
+- *00:26*: A second CPEE process instance has been created meaning that a second robot starts to work. As soon as the second process started, a second robot appeared on the dashboard stating its `instance_uuid`.
+- *00:55*: The first robot, i.e. the first process created, is stopped (exactly at *01:02*) and the robot stops working immediately. The status displayed on the dashboard remains unchanged for one minute as long as the robot does not resume its work. Meanwhile, the second robot continues to take orders and make cocktails, occasionally shutting down and setting up itself. The process continues displaying any process changes in real-time.
+- *02:02*: One minute after the first process is stopped, the system recognizes that this robot appears to be out of order and the dashboard sets its status to "** Out of order**". If the robot does not resume its work within four minutes, the system excludes this robot completely from the dashboard.
+
+A second [video](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/08_Cocktail_Dashboard_Real-Time-Demonstration.mp4) demonstrates the real-time capability of the dashboard by showing both the CPEE process and the dashboard in action.
 
 ## API Documentation
 
