@@ -39,7 +39,7 @@ This project incorporates the following components:
 
 `chmod 666 log_database.db`
 
-5. Adjust the link `db_path` in the scripts `persist_logs_in_sqlite.py` and `backend_cocktail_dashboard.py` to point to the database you created
+5. If required: Adjust the link `db_path` in the scripts `persist_logs_in_sqlite.py` and `backend_cocktail_dashboard.py` to point to the database you created
 
 6. Run the project with the following commands:
 
