@@ -24,7 +24,7 @@ This project incorporates the following components:
 
 ## Installation
 
-1. Navigate to your account space on the server ["lehre.bpm.in.tum.de"](https://lehre.bpm.in.tum.de/)
+1. Navigate and log into your account space on the server [lehre.bpm.in.tum.de](https://lehre.bpm.in.tum.de/)
 2. Clone the repository with the following command:
 
 `git clone https://github.com/AlexMR2000/Cocktail_Dashboard`
