@@ -112,4 +112,4 @@ def write_log_to_db():
 
 if __name__ == '__main__':
     setup_database()
-    app.run(host='::', port=9090, debug=True)
+    app.run(host='::', port=9099, debug=True)
