@@ -66,7 +66,6 @@ def stream():
             # Select logs that have not been processed yet
             cur.execute("SELECT * FROM logs WHERE id > ? ORDER BY id ASC", (last_log_id,))
             logs = cur.fetchall()
-            print(logs)
 
             for log in logs:
                 instance_uuid = log['instance_uuid']
