@@ -11,7 +11,7 @@ Prepared by Alexander Reisenauer (Matr.Nr.: 03712872)
 
 ### Overview
 
-The main goal of this project was to develop a management dashboard for the cocktail robot developed by the TUM CIT chair based on a [CPEE](https://cpee.org/) model. The requirements for the project stipulate that the system should persist the logs resulting from the CPEE process in a SQLite database and, in the next step, be connected to a web-based dashboard via a Server-Sent Events (SSE) connection. In this way, this project provides an extensible and easily scalable system that gives the user feedback on the actions of one or more cocktail robots in real time. Further architectural details of this project can be found in the following graphic: 
+The main goal of this project was to develop an easily extensible, modular management dashboard for the cocktail robot developed by the TUM CIT Chair based on a [CPEE](https://cpee.org/) model. The requirements for the project stipulate that the system should persist the logs resulting from the CPEE process in a SQLite database and, in the next step, be connected to a web-based dashboard via a Server-Sent Events (SSE) connection. In this way, this project provides an extensible and easily scalable system that gives the user feedback on the actions of one or more cocktail robots in real time. Further architectural details of this project can be found in the following graphic: 
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/Cocktail_Dashboard_ArchitecturalDesign_Overview.jpg)
 
@@ -25,6 +25,10 @@ This project incorporates the following components:
 4. **Dashboard Frontend:** The html script `frontend_cocktail_dashboard.html` visualizes the logs in a user-friendly and comprehensive way that allows developers and non-developers to get an overview of the status of one or more cocktail robots and various relevant statistics. The dashboard is limited to view-only functionalities, which meets the requirements of the project.
 
 ## Installation
+
+Please refer to the following video for the installation of this project: 
+
+![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/01_Cocktail_Dashboard_Installation.mp4)
 
 1. Navigate and log into your account space on the server [lehre.bpm.in.tum.de](https://lehre.bpm.in.tum.de/)
 2. Clone the repository with the following command:
@@ -106,7 +110,7 @@ There is a set of annotation keys defined for the CPEE process at hand:
 - `dashboard_cocktail_stats` provides information about which cocktail was ordered and takes values such as "Gin Tonic", "Negroni", or "Old Fasioned"
 - `dashboard_item_used` provides information about which ingredients were used for a cocktail and takes values such as "Gin", "Tonic", or "Angostura"
 
-These four annotation keys are enough to model and visualize the whole process in the next step. Moreover, they make the process easily extensible. For instance, one could add an additional recipe (subprocess) for, say, Mojito by simply specifying new values for the annotation `dashboard_cocktail_stats`, i.e. "Mojito", and `dashboard_item_used`, i.e. "Rum", "Soda", "Lime", etc. 
+These four annotation keys are enough to model and visualize the whole process in the next step. Moreover, they make the process easily extensible. For instance, one could add an additional recipe (subprocess) for, say, Mojito by simply specifying new values for the annotation `dashboard_cocktail_stats`, i.e. "Mojito", and `dashboard_item_used`, i.e. "Rum", "Soda", "Lime", etc. Nothing needs to be changed in the subsequent code elements as they rely solely on the key not the value elements of the logs - the backend would seamlessly incorporate this new cocktail type and display it in the frontend. 
 
 ## Demo with Images and Videos 
 
