@@ -5,6 +5,8 @@ Prepared by Alexander Reisenauer (Matr.Nr.: 03712872)
 - Supervisor: Dr. Jürgen Mangler
 - Chair: TUM School of Computation, Information and Technology (Prof. Rinderle-Ma)
 
+![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/00_dashboard_overview.png)
+
 ## Architectural Design
 
 ### Overview
