@@ -1,4 +1,4 @@
-# Cocktail Dashboard
+# Cocktail Robot Dashboard
 
 Prepared by Alexander Reisenauer (Matr.Nr.: 03712872)
 
