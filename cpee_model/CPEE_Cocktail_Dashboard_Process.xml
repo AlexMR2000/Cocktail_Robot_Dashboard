@@ -1267,7 +1267,7 @@ data.robot_ready = rand(1..10)</finalize>
     <endpoints type="none"/>
   </transformation>
   <subscriptions xmlns="http://riddl.org/ns/common-patterns/notifications-producer/2.0">
-    <subscription xmlns="http://riddl.org/ns/common-patterns/notifications-producer/2.0" id="_logging_db_port" url="https://lehre.bpm.in.tum.de/ports/9099/writelogtodb">
+    <subscription xmlns="http://riddl.org/ns/common-patterns/notifications-producer/2.0" id="_logging_db_port" url="https://lehre.bpm.in.tum.de/ports/9065/writelogtodb">
       <topic id="activity">
         <event>receiving</event>
         <event>done</event>
