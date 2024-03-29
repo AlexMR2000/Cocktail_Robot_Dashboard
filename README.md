@@ -9,7 +9,7 @@ Prepared by Alexander Reisenauer (Matr.Nr.: 03712872)
 
 ### Overview
 
-The main goal of this project was to develop a management dashboard for a simulation of the cocktail robot developed by the TUM CIT chair based on a [CPEE](https://cpee.org/) model. The requirements for the project stipulate that the system should persist the logs resulting from the CPEE process in a SQLite database and, in the next step, be connected to a web-based dashboard via a Server-Sent Events (SSE) connection. In this way, this project provides an extensible and easily scalable system that gives the user feedback on the actions of one or more cocktail robots in real time. Further architectural details of this project can be found in the following graphic: 
+The main goal of this project was to develop a management dashboard for the cocktail robot developed by the TUM CIT chair based on a [CPEE](https://cpee.org/) model. The requirements for the project stipulate that the system should persist the logs resulting from the CPEE process in a SQLite database and, in the next step, be connected to a web-based dashboard via a Server-Sent Events (SSE) connection. In this way, this project provides an extensible and easily scalable system that gives the user feedback on the actions of one or more cocktail robots in real time. Further architectural details of this project can be found in the following graphic: 
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/Cocktail_Dashboard_ArchitecturalDesign_Overview.jpg)
 
