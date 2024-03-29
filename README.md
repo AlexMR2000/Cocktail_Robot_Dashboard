@@ -53,39 +53,58 @@ This project incorporates the following components:
 
 ## CPEE Model
 
-The [CPEE model](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/cpee_model/CPEE_Cocktail_Dashboard_Process.xml) serves as a simulator of a single cocktail robot and is designed to be a placeholder for more detailed (sub)processes in future projects. It is possible to start several processes in parallel, which would mean that several cocktail robots work simultaneously. Note that the process is based on local data elements that control the process, e.g. by determining the fill levels of ingredients or by randomly selecting cocktail orders. The process exists for demonstration purposes only. In this project, the basic functionalities of a cocktail robot are implemented, which consist of the following actions: 
+The [CPEE model](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/cpee_model/CPEE_Cocktail_Dashboard_Process.xml) serves as a simulator of a single cocktail robot and is designed to be extendable by more detailed (sub)processes in future projects. It is possible to start several processes in parallel, which would mean that several cocktail robots work simultaneously. Note that the process is based on local data elements that control the process, e.g. by determining the fill levels of ingredients or by randomly selecting cocktail orders. However, the dashboard functions without relying on these local data elements but rather on "annotations" assigned to each process step in CPEE. Please refer to the chapter "Process Logs" for further information. 
 
-### 1. Setting up the robot
+### Process Flow
+
+The CPEE process at hand implements the basic functionalities of a cocktail robot, which consist of the following actions: 
+
+#### 1. Setting up the robot
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/01_cpee_model_doc_setting_up_the_robot.png)
 
 The process uses a random parameter to decide whether the robot builds up (boots) successfully or whether it "crashes" and shuts down (see Step 5). The latter results in a new reboot. If the robot boots successfully, the process continues to Step 2.  
 
-### 2. Getting an order
+#### 2. Getting an order
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/02_cpee_model_doc_getting_an_order.png)
 
 The process "orders" a cocktail at random, i.e. in this example Gin Tonic, Negroni or Old Fashioned. There is also a chance that a cocktail will be ordered that is not on the "menu", i.e. for which no process/recipe is defined. In this case, refer to Step 4. If the cocktail is "on the menu", the process continues with Step 3. 
 
-### 3. Preparing a cocktail or filling up the ingredients
+#### 3. Preparing a cocktail or filling up the ingredients
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/03_cpee_model_preparing_cocktail_or_fill_up_ingredients.png)
 
 The system checks whether the ingredients are sufficient to make the cocktail ordered. If so, the cocktail recipe, as implemented into the process, is executed, whereby the addition of an ingredient, e.g. Angostura to an Old Fashioned, is a process step. Finally, each cocktail is "mixed and served". If the level of any of the required ingredients is insufficient, the process selects the alternative lane, i.e. rejecting the order and replenishing the ingredients. The process continues with Step 5.
 
-### 4. Cocktail is unavailable
+#### 4. Cocktail is unavailable
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/04_cpee_model_cocktail_unavailable.png)
 
 If the order from Step 2 results in a cocktail that is not available, i.e. for which no process is defined, the order is rejected and the process continues with Step 5.
 
-### 5. Finishing an order and shutting down
+#### 5. Finishing an order and shutting down
 
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/05_cpee_model_finishing_an_order_and_shutting_down.png)
 
 In both cases, i.e. when an order has been successfully executed or rejected, the process ends the current order cycle by resetting various status variables that are required for the process to run in an endless simulation loop. Here too, the process randomly determines whether the robot can continue working, i.e. accepts the next order (jump to Step 2), or whether it "crashes" and has to be switched off. In the latter case, the robot shuts down and rebuilds itself (Step 1).  
 
 To summarize, the CPEE model is designed to generate data for demonstration porpuses and to be easily scalable. As the dashboard is not based on the data elements of the process, but on the annotations associated with the different process elements, the dashboard is robust to changes in the names of individual data elements, for example. These 'annotations' are a CPEE feature enabling more efficient logging by abstracting single process steps. The dashboard backend and frontend heavily relies on these annotations as can be seen in the following chapters. 
+
+### Process Logs
+
+Process logs produced by a CPEE process can be accessed via the so-called Logging Service [(Mangler & Rinderle-Ma, 2022)](https://i17vm1.in.tum.de/zotero/R2624EE2.pdf). A typical downside of working with logs could be that they are very specific to a process and that malfunctions may occur in later applications even if small changes are made in the process. This project addresses this problem by relying on generic "annotations" instead of logging data element changes. 
+
+![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/06_cpee_model_logs.png)
+
+There is a set of annotation keys defined for the CPEE process at hand:
+
+- `dashboard_robot_status` describes status changes of the cocktail robot and takes values such as "Setting up...", "Accepting order", or "Preparing ingredients"
+- `dashboard_process_status` describes the overall process status and takes values such as "started" or "finished"
+- `dashboard_cocktail_stats` provides information about which cocktail was ordered and takes values such as "Gin Tonic", "Negroni", or "Old Fasioned"
+- `dashboard_item_used` provides information about which ingredients were used for a cocktail and takes values such as "Gin", "Tonic", or "Angostura"
+
+These four annotation keys are enough to model and visualize the whole process in the next step. Moreover, they make the process easily extensible. For instance, one could add an additional recipe (subprocess) for, say, Mojito by simply specifying new values for the annotation `dashboard_cocktail_stats`, i.e. "Mojito", and `dashboard_item_used`, i.e. "Rum", "Soda", "Lime", etc. 
 
 ## Demo with Images and Videos 
 
