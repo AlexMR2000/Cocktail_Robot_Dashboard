@@ -5,7 +5,7 @@ import json
 app = Flask(__name__)
 
 # Database path
-db_path = '/home/students/ge49vav/public_html/log_database.db'
+db_path = '/home/students/ge49vav/public_html/Cocktail_Dashboard/src/log_database.db'
 
 
 # Function to get a database connection
