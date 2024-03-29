@@ -19,8 +19,8 @@ This project incorporates the following components:
 
 1. **Simulator:** The CPEE process serves as a simulator that generates data on the actions of the cocktail robot in its typical working environment. This means: setting up the robot, receiving and accepting orders, preparing and serving cocktails and switching off. Please refer to the next chapter for further information. 
 2. **Logger:** The Python script `persist_logs_in_sqlite.py` serves as an interface between the logging interface of CPEE and the backend. Event logs that are generated while the simulator is running are parsed and persisted in a SQLite database (`log_database.db`) located on my account on the server [lehre.bpm.in.tum.de](https://lehre.bpm.in.tum.de/~ge49vav/).  
-3. **Dashboard Backend:** The Python script `backend_cocktail_dashboard` includes a Flask Python web framework that prepares relevant logs as soon as new logs are written to the database. It therefore constantly searches the database for updates in order to send new data to the frontend (SSE).
-4. **Dashboard Frontend:** The html script `frontend_cocktail_dashboard` visualizes the logs in a user-friendly and comprehensive way that allows developers and non-developers to get an overview of the status of the cocktail robot and various relevant statistics. The dashboard is limited to view-only functionalities, which meets the requirements of the project.
+3. **Dashboard Backend:** The Python script `backend_cocktail_dashboard.py` includes a Flask Python web framework that prepares relevant logs as soon as new logs are written to the database. It therefore constantly searches the database for updates in order to send new data to the frontend (SSE).
+4. **Dashboard Frontend:** The html script `frontend_cocktail_dashboard.html` visualizes the logs in a user-friendly and comprehensive way that allows developers and non-developers to get an overview of the status of one or more cocktail robots and various relevant statistics. The dashboard is limited to view-only functionalities, which meets the requirements of the project.
 
 ## Installation
 
