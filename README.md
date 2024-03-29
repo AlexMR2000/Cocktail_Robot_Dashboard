@@ -112,6 +112,8 @@ These four annotation keys are enough to model and visualize the whole process i
 
 ## Demo with Images and Videos 
 
+### Dashboard Elements
+
 ![alt text](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/00_dashboard_overview.png)
 
 The product of this project is a web dashboard that is updated in real-time as an underlying CPEE process changes. The dashboard incorportas the following elements (top to bottom, left to right): 
@@ -122,7 +124,9 @@ The product of this project is a web dashboard that is updated in real-time as a
 - **Robot failures since last reset**: This number increases by one each time there is a new log entry where the annotation key `dashboard_cocktail_stats` indicates that the robot crashed, e.g., "The Robot crashed. Shutting down...".
 - **Current Status of Robot: ...**: The current status of a single robot (identified by its `instance_uuid`) is displayed here. The dashboard can display an infinite number of individual robot statuses.
 - **Barchart: Number of Cocktails Made**:
-- **Barchart: Ingredients Used**: 
+- **Barchart: Ingredients Used**:
+
+### Dashboard in Action
 
 The functionalities of the dashboard are best demonstrated in this [video](https://github.com/AlexMR2000/Cocktail_Dashboard/blob/main/docs/07_Cocktail_Dashboard_Functionality-Demonstration.mp4): 
 
